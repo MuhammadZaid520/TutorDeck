@@ -5,7 +5,7 @@ import { AuthRequest } from '../middlewares/auth';
 export const getTransactions = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const transactions = await prisma.transaction.findMany({
-      where: { userId: req.user?.id },
+      where: { userId: req.user!.id },
       orderBy: { date: 'desc' },
     });
     res.json(transactions);
@@ -35,7 +35,7 @@ export const createTransaction = async (req: AuthRequest, res: Response): Promis
 
 export const deleteTransaction = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     
     const existing = await prisma.transaction.findUnique({ where: { id } });
     if (!existing || existing.userId !== req.user?.id) {

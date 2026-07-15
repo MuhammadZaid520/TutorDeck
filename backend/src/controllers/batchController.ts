@@ -5,7 +5,7 @@ import { AuthRequest } from '../middlewares/auth';
 export const getBatches = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const batches = await prisma.batch.findMany({
-      where: { userId: req.user?.id },
+      where: { userId: req.user!.id },
       include: {
         _count: {
           select: { students: true }
@@ -35,7 +35,7 @@ export const createBatch = async (req: AuthRequest, res: Response): Promise<void
 
 export const updateBatch = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const data = req.body;
     
     const existing = await prisma.batch.findUnique({ where: { id } });
@@ -56,7 +56,7 @@ export const updateBatch = async (req: AuthRequest, res: Response): Promise<void
 
 export const deleteBatch = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     
     const existing = await prisma.batch.findUnique({ where: { id } });
     if (!existing || existing.userId !== req.user?.id) {

@@ -5,7 +5,7 @@ import { AuthRequest } from '../middlewares/auth';
 export const getStudents = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const students = await prisma.student.findMany({
-      where: { userId: req.user?.id },
+      where: { userId: req.user!.id },
       include: { batch: true },
     });
     res.json(students);
@@ -32,7 +32,7 @@ export const createStudent = async (req: AuthRequest, res: Response): Promise<vo
 
 export const updateStudent = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const data = req.body;
     
     // Ensure student belongs to user
@@ -55,7 +55,7 @@ export const updateStudent = async (req: AuthRequest, res: Response): Promise<vo
 
 export const deleteStudent = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     
     const existing = await prisma.student.findUnique({ where: { id } });
     if (!existing || existing.userId !== req.user?.id) {

@@ -15,9 +15,9 @@ export const authenticate = (req: AuthRequest, res: Response, next: NextFunction
   const token = authHeader.split(' ')[1];
 
   try {
-    const secret = process.env.JWT_SECRET || 'supersecret';
-    const decoded = jwt.verify(token, secret) as { id: string; email: string };
-    req.user = decoded;
+    const secret = String(process.env.JWT_SECRET || 'supersecret');
+    const decoded = jwt.verify(token, secret) as any;
+    req.user = { id: decoded.id, email: decoded.email };
     next();
   } catch (error) {
     res.status(401).json({ message: 'Invalid token' });

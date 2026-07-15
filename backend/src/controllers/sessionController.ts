@@ -5,7 +5,7 @@ import { AuthRequest } from '../middlewares/auth';
 export const getSessions = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const sessions = await prisma.session.findMany({
-      where: { userId: req.user?.id },
+      where: { userId: req.user!.id },
       include: {
         batch: true,
         students: true,
@@ -40,7 +40,7 @@ export const createSession = async (req: AuthRequest, res: Response): Promise<vo
 
 export const updateSession = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     const data = req.body;
     if (data.date) data.date = new Date(data.date);
     if (data.duration) data.duration = Number(data.duration);
@@ -63,7 +63,7 @@ export const updateSession = async (req: AuthRequest, res: Response): Promise<vo
 
 export const deleteSession = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { id } = req.params;
+    const id = req.params.id as string;
     
     const existing = await prisma.session.findUnique({ where: { id } });
     if (!existing || existing.userId !== req.user?.id) {
