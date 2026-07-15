@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  students  Student[]
+  batches   Batch[]
+  sessions  Session[]
+  transactions Transaction[]
+}
+
+model Student {
+  id             String   @id @default(uuid())
+  name           String
+  email          String?
+  phone          String?
+  grade          String?
+  parentName     String?
+  parentPhone    String?
+  feeStatus      String   @default("PAID") // PAID, DUE, OVERDUE
+  joinedDate     DateTime @default(now())
+  
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  
+  batchId        String?
+  batch          Batch?   @relation(fields: [batchId], references: [id])
+  
+  sessions       Session[] @relation("SessionToStudent")
+  transactions   Transaction[]
+}
+
+model Batch {
+  id        String   @id @default(uuid())
+  name      String
+  subject   String
+  schedule  String
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  
+  students  Student[]
+  sessions  Session[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  title     String
+  date      DateTime
+  duration  Int      // in minutes
+  type      String   @default("CLASS") // CLASS, EXAM, DOUBT
+  status    String   @default("SCHEDULED") // SCHEDULED, COMPLETED, CANCELLED
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  
+  batchId   String?
+  batch     Batch?   @relation(fields: [batchId], references: [id])
+  
+  students  Student[] @relation("SessionToStudent")
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  amount      Float
+  type        String   // INCOME, EXPENSE
+  category    String
+  description String?
+  date        DateTime @default(now())
+  
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  
+  studentId   String?
+  student     Student? @relation(fields: [studentId], references: [id])
+}
