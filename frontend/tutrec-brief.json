@@ -1,0 +1,350 @@
+{
+  "project": {
+    "name": "TutRec",
+    "tagline": "Freelance Tutor Management Dashboard",
+    "description": "A web application that helps freelance tutors manage one-on-one students and group batches, track payments, automate email reminders, and generate financial reports.",
+    "targetUsers": "Freelance tutors in Pakistan, India, UK, USA and other countries who teach online, in-person, or hybrid.",
+    "businessModel": "Freemium SaaS. The tutor pays for the platform. Students get free access to a minimal portal. No payment gateways in MVP — students submit payment proof (screenshots), tutors approve manually.",
+    "version": "MVP 1.0",
+    "status": "Ready for development"
+  },
+
+  "techStack": {
+    "frontend": {
+      "framework": "React 18 + TypeScript",
+      "buildTool": "Vite",
+      "styling": "Tailwind CSS 3",
+      "routing": "React Router v6",
+      "stateManagement": "Context API + localStorage",
+      "charts": "Recharts",
+      "pdfGeneration": "jsPDF + jspdf-autotable",
+      "icons": "Lucide React",
+      "fileUpload": "AWS S3 SDK"
+    },
+    "backend": {
+      "runtime": "Node.js 18+",
+      "framework": "Express.js",
+      "database": "PostgreSQL",
+      "orm": "Prisma",
+      "auth": "JWT",
+      "emailService": "Resend (or Nodemailer as fallback)",
+      "fileStorage": "AWS S3",
+      "scheduledTasks": "node-cron",
+      "passwordHashing": "bcrypt",
+      "validation": "Zod or Joi",
+      "rateLimiting": "express-rate-limit"
+    },
+    "deployment": {
+      "frontend": "Vercel",
+      "backend": "Railway or Render",
+      "database": "PostgreSQL (Railway-hosted or AWS RDS)",
+      "fileStorage": "AWS S3",
+      "email": "Resend",
+      "domain": "tutrec.io (placeholder)"
+    }
+  },
+
+  "coreProblemsSolved": [
+    "Tutors manually track who has paid and who hasn't",
+    "No automated reminders for overdue payments",
+    "No structured way to manage sessions across students and group classes",
+    "Physical and online classes mixed together with no tracking",
+    "Business expenses not tracked, so real profit is unknown",
+    "Parents and students constantly messaging tutors for basic info like next class time or what was covered"
+  ],
+
+  "designSystem": {
+    "philosophy": "Interactive but minimal. Clean layouts, purposeful animations, no clutter. Every element earns its place. Feels like a professional daily-use tool, not a feature dump.",
+    "themes": {
+      "light": {
+        "background": "#FFFFFF",
+        "backgroundSecondary": "#F8F9FC",
+        "surface": "#FFFFFF",
+        "text": "#0F1F3D",
+        "border": "#E4E7EF"
+      },
+      "dark": {
+        "background": "#0A1628",
+        "surface": "#0F1F3D",
+        "surfaceElevated": "#162236",
+        "text": "#FFFFFF",
+        "textSecondary": "#CBD5E1",
+        "border": "#1E3152",
+        "sidebar": "#080F1E"
+      },
+      "darkModeRequirements": [
+        "Dark mode is a first-class citizen, not an afterthought",
+        "Toggle in topbar (sun/moon icon)",
+        "Persist preference to localStorage",
+        "Respect prefers-color-scheme on first load",
+        "Smooth 200ms transition on toggle",
+        "No hardcoded hex values in components — use Tailwind CSS variables or theme config so dark mode is maintainable"
+      ]
+    },
+    "accentColors": {
+      "primaryAction": "#3B82F6",
+      "success_paid": "#10B981",
+      "warning_due": "#F59E0B",
+      "danger_overdue": "#F43F5E",
+      "highlight": "#8B5CF6",
+      "note": "Accent colors stay the same across light and dark mode"
+    },
+    "typography": {
+      "display": "Outfit",
+      "body": "Inter",
+      "data": "Fira Code"
+    },
+    "navigation": {
+      "desktop": "Fixed sidebar, deep navy background in both light and dark mode, white text and icons, active item highlighted with electric blue left border + blue tint background",
+      "mobile": "Bottom tab bar, 5 items max",
+      "sidebarItems": ["Dashboard", "Students", "Sessions", "Payments", "Financial Ledger"],
+      "sidebarBottomItems": ["Settings", "Logout"]
+    },
+    "components": {
+      "cards": "Rounded corners 12px, white in light mode, #0F1F3D in dark mode, very subtle shadow",
+      "buttons": "Rounded 8px. Primary = electric blue, Secondary = outlined, Danger = rose",
+      "statusBadges": "Pill-style. Paid = emerald, Due = amber, Overdue = rose, Neutral = slate",
+      "tables": "Clean rows, subtle hover background, no heavy borders",
+      "modals": "Centered, backdrop blur, clean header with close button",
+      "charts": "Recharts, accent palette colors, no chart borders, smooth curves",
+      "inputs": "Navy border in dark mode, grey border in light mode, electric blue focus ring",
+      "tooltips": "On hover for icon-only buttons",
+      "loaders": "Skeleton loaders on data fetch, not spinners",
+      "emptyStates": "Icon or illustration + short message + primary action button"
+    },
+    "motion": {
+      "pageTransitions": "Subtle fade, 150ms",
+      "modalOpenClose": "Scale + fade, 200ms",
+      "sidebarMobile": "Smooth collapse, 250ms",
+      "buttonHover": "Slight brightness lift, no scale transform",
+      "cardHover": "Subtle shadow increase",
+      "statusBadge": "Static, no animation",
+      "charts": "Animate on mount using Recharts built-in animation",
+      "skeletonLoader": "Pulse animation while fetching"
+    }
+  },
+
+  "features": {
+    "auth": {
+      "signup": ["Email", "Name", "Password", "Country (dropdown)", "Currency (auto-selected from country, editable)"],
+      "login": ["Email + password", "Remember me checkbox"],
+      "passwordReset": "Email verification + reset link",
+      "logout": "Available in sidebar"
+    },
+
+    "studentManagement": {
+      "addStudent": ["Name", "Email", "Phone", "Timezone", "Level", "Subject", "Currency", "Fee", "Plan type (prepaid/postpaid/wallet)", "Billing cycle days", "Concessions"],
+      "studentList": "Table view with search, status filters, status badges",
+      "editStudent": "Update any field",
+      "markAsPaid": "Quick action, resets plan expiry date",
+      "sharePortalLink": "Copy link or email to student",
+      "discontinueStudent": "Soft delete, stays in history, marked inactive"
+    },
+
+    "batchManagement": {
+      "addBatch": ["Name", "Level", "Subject", "Currency", "Fee per student", "Plan type", "Schedule (multiple recurring day + time + duration entries)"],
+      "batchList": "Card view with member count, schedule, actions",
+      "manageMembers": "Add/remove students from batches",
+      "autoGenerateSessions": "Create recurring sessions automatically from batch schedule (e.g. Mon/Wed/Fri)"
+    },
+
+    "sessionManagement": {
+      "calendarView": "Week view, 7 day columns, hourly rows from 6 AM to 7 PM, click empty slot to add session",
+      "addSession": ["Select student or batch", "Date", "Time", "Duration", "Class mode (Online or Physical)", "Location field (only for Physical — e.g. 'Home', 'Academy XYZ', 'Student's home')"],
+      "rescheduleSession": "Change date/time, auto-sends email to student",
+      "cancelSession": "Add optional reason, auto-sends email to student",
+      "sessionNotes": "Tutor adds 2-3 bullet points after lesson, e.g. 'Covered quadratic equations, homework: ex 5-10'",
+      "upcomingSessionsList": "Sidebar widget, next 5 sessions with quick actions"
+    },
+
+    "paymentTracking": {
+      "autoCalculateStatus": "Paid / Due / Overdue based on plan expiry date vs today",
+      "manualMarkAsPaid": "Quick action by tutor, no proof required",
+      "paymentHistory": "Table: date, student, amount, method, status",
+      "outstandingList": "Dashboard widget showing who owes money and how much"
+    },
+
+    "paymentProofSubmission": {
+      "studentSide": ["Upload screenshot or receipt", "Select payment method (Bank Transfer, Easypaisa, JazzCash, Cash, Other)", "Optional notes"],
+      "tutorSide": ["View receipt image", "Approve or reject with optional reason"],
+      "onApproval": "Student status updates to paid, auto-email sent to student",
+      "onRejection": "Auto-email sent with reason, student can resubmit"
+    },
+
+    "expensesTracker": {
+      "addExpense": ["Date", "Category", "Description", "Amount", "Currency"],
+      "categories": ["Software", "Internet", "Marketing", "Supplies", "Rent", "Transport", "Other"],
+      "note": "Rent category specifically covers physical class venue costs like academy rent or room hire",
+      "expenseList": "Table with filters and delete",
+      "expenseBreakdown": "Pie chart by category in Financial Ledger"
+    },
+
+    "financialLedger": {
+      "viewToggle": "Monthly / Yearly",
+      "periodSelector": "Dropdown to pick specific month or year",
+      "summaryCards": ["Revenue", "Expenses", "Net Profit", "Profit Margin %"],
+      "charts": {
+        "incomeVsExpenses": "Bar chart per period",
+        "expenseBreakdown": "Pie chart by category",
+        "profitTrend": "Line chart over time with income/expenses/profit lines"
+      },
+      "pdfExport": "Downloadable PDF report with summary table, payment list, expense list, TutRec branding"
+    },
+
+    "settings": {
+      "profile": ["Name", "Country", "Timezone", "Email (view only)"],
+      "currency": ["Base currency dropdown (USD/GBP/PKR/EUR/AED/INR)", "Manual exchange rate entry per currency"],
+      "qualificationLevels": "Pre-filled list: O' Level, IGCSE, GCSE, IB, AS Level, A Level, Grade 8 down to Grade 3. Add/remove/reorder.",
+      "concessions": "Sibling discount, Early bird, Referral credit — add/edit/delete, percent or flat amount",
+      "notifications": ["Enable/disable payment reminders", "Enable/disable session notifications", "Payment reminder days (default 2)"],
+      "darkModeToggle": "Also available here in addition to topbar",
+      "editableEmailTemplates": "Tutor edits subject line and body of each automated email type using variable placeholders"
+    },
+
+    "dashboard": {
+      "welcomeSection": "Greeting, current date, base currency display",
+      "keyMetricCards": ["Total Earned", "Outstanding", "Active Students", "Sessions Today", "Payment Rate %"],
+      "balanceOverview": "Visual bar: Received % vs Pending %, with two info boxes",
+      "paymentTrendChart": "Area chart, last 7 days",
+      "studentStatusDistribution": "Bar chart: Paid / Due / Overdue counts",
+      "recentPaymentsList": "Last 5 payments",
+      "awaitingPaymentList": "Unpaid students sorted by days overdue descending"
+    },
+
+    "studentPortal": {
+      "access": "Unique token URL per student per tutor: tutrec.io/portal/[token]",
+      "authRequired": false,
+      "note": "Token in URL is the authentication. If a student has two tutors both using TutRec, they get two separate portal links — one per tutor. Unified multi-tutor portal is post-MVP.",
+      "features": [
+        "View upcoming sessions (next 3-5, with date/time/subject/duration)",
+        "View session notes (read-only, written by tutor)",
+        "Mark attendance for past sessions ('I attended' / 'I couldn't attend')",
+        "View outstanding balance if payment due",
+        "Select payment method (Bank Transfer, Easypaisa, JazzCash, Cash, Other)",
+        "Submit payment proof (file upload + notes), status shows 'Pending review'"
+      ]
+    },
+
+    "emailAutomation": {
+      "engine": "node-cron scheduled jobs",
+      "templatesAreEditable": true,
+      "events": [
+        {
+          "name": "Payment overdue reminder",
+          "trigger": "Nightly cron job, checks students past planExpiryDate + reminderDays and status != paid",
+          "recipient": "Student"
+        },
+        {
+          "name": "Session rescheduled",
+          "trigger": "When tutor reschedules a session",
+          "recipient": "Student"
+        },
+        {
+          "name": "Session cancelled",
+          "trigger": "When tutor cancels a session",
+          "recipient": "Student"
+        },
+        {
+          "name": "Payment proof received",
+          "trigger": "When student submits payment proof",
+          "recipient": "Tutor"
+        },
+        {
+          "name": "Payment approved",
+          "trigger": "When tutor approves a payment proof",
+          "recipient": "Student"
+        }
+      ],
+      "templateVariables": [
+        "{StudentName}",
+        "{TutorName}",
+        "{Amount}",
+        "{Date}",
+        "{Subject}",
+        "{OldDate}",
+        "{NewDate}",
+        "{Reason}",
+        "{PortalLink}"
+      ]
+    }
+  },
+
+  "databaseSchema": {
+    "tables": {
+      "Tutor": {
+        "purpose": "User account, settings, exchange rates, qualification levels, concessions",
+        "keyFields": ["id", "email", "passwordHash", "name", "country", "timezone", "baseCurrency", "exchangeRates (JSON)", "qualificationLevels (JSON)", "concessions (JSON)", "paymentReminderDays"]
+      },
+      "Student": {
+        "purpose": "Individual one-on-one student records",
+        "keyFields": ["id", "tutorId", "name", "email", "phone", "timezone", "level", "subject", "currency", "feeAmount", "planType", "billingCycleDays", "planStartDate", "planExpiryDate", "status (paid/due/overdue, auto-calculated)", "active", "portalAccessToken (unique)", "concessionIds"]
+      },
+      "Batch": {
+        "purpose": "Group class records",
+        "keyFields": ["id", "tutorId", "name", "level", "subject", "currency", "feePerStudent", "planType", "billingCycleDays", "schedule (JSON array of day/startTime/durationMins)", "active"]
+      },
+      "BatchStudent": {
+        "purpose": "Junction table linking students to batches",
+        "keyFields": ["id", "batchId", "studentId", "enrolledAt"]
+      },
+      "Session": {
+        "purpose": "Individual lessons (linked to student or batch)",
+        "keyFields": ["id", "tutorId", "recordType (individual/batch)", "recordId", "title", "date", "startTime", "durationMins", "status (scheduled/completed/cancelled/rescheduled)", "classMode (online/physical)", "location", "zoomLink", "notes", "rescheduledFrom", "cancellationReason"]
+      },
+      "Payment": {
+        "purpose": "Confirmed income received",
+        "keyFields": ["id", "tutorId", "recordType", "recordId", "amount", "currency", "date", "periodStart", "periodEnd", "method", "notes"]
+      },
+      "PaymentProof": {
+        "purpose": "Student-submitted proof of payment awaiting tutor review",
+        "keyFields": ["id", "tutorId", "studentId", "amount", "currency", "paymentMethod", "proofUrl (S3 path)", "notes", "status (pending/approved/rejected)", "approvedBy", "approvedAt", "rejectionReason"]
+      },
+      "Expense": {
+        "purpose": "Business costs",
+        "keyFields": ["id", "tutorId", "date", "category", "description", "amount", "currency"]
+      },
+      "EmailTemplate": {
+        "purpose": "Editable email templates per type per tutor",
+        "keyFields": ["id", "tutorId", "templateType", "subject (editable)", "body (editable, contains variable placeholders)"]
+      }
+    }
+  },
+
+  "technicalNotes": [
+    "Physical classes are first-class. Sessions have classMode (online/physical) and a location field for physical venues — important for tutors teaching at home, an academy, or a student's house.",
+    "Email templates are stored in the database and editable by tutors, not hardcoded. Variables are replaced at send time.",
+    "No payment gateway in MVP. Students upload payment proof (screenshot/receipt). Tutors approve or reject. Money never flows through TutRec — this keeps it globally compatible and regulation-free.",
+    "Two ways to mark a student as paid: (1) tutor marks paid directly with no proof, or (2) student submits proof and tutor approves.",
+    "Student portal is token-based with no login required. Token is in the URL. A student with two tutors on TutRec gets two separate portal links, one per tutor. Unified multi-tutor portal is a post-MVP feature.",
+    "Multi-currency from day one. Every fee and expense has its own currency. All values convert to the tutor's base currency for reporting. Exchange rates are entered manually in Settings (no live FX sync in MVP).",
+    "A student can be in a batch AND have individual sessions simultaneously.",
+    "Payment status logic: status = 'paid' if approved within current billing cycle; 'due' if planExpiryDate is today or future; 'overdue' if planExpiryDate is in the past.",
+    "Dark mode must be built with theme variables from the start (Tailwind CSS variables or equivalent), not retrofitted — avoid hardcoded hex colors in components."
+  ],
+
+  "outOfScopeForMVP": [
+    "Certificate of completion",
+    "Payment gateways (Stripe, Easypaisa, Razorpay, etc.)",
+    "Unified student portal across multiple tutors",
+    "Student LMS features (homework submission, video library, course content)",
+    "Two-factor authentication",
+    "White-label portals",
+    "Google Calendar or Zoom API integration",
+    "Live FX rate syncing",
+    "Mobile app (web-only)",
+    "Advanced analytics (churn prediction, lifetime value, etc.)"
+  ],
+
+  "openQuestionsForDevTeam": [
+    "Email provider preference: Resend (simpler) or Nodemailer with SMTP?",
+    "File storage: AWS S3 or Firebase Storage?",
+    "Database hosting: Railway-managed PostgreSQL or AWS RDS?",
+    "Timezone handling: store all dates in UTC, display in tutor's local timezone on frontend?",
+    "Batch fees: do all students in a batch pay the same fee? (assume yes for MVP)",
+    "Session completion: auto-mark completed after scheduled time passes, or manual tutor action? (assume auto for MVP)",
+    "Rate limiting: enable per-user API rate limits?",
+    "Language: English only for MVP?",
+    "Concurrent sessions: one active login per tutor account for MVP?",
+    "Testing scope: unit + integration tests only, or end-to-end as well?"
+  ]
+}

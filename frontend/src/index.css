@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-background: #F9F8F6; /* Warmer, softer off-white for depth */
+    --text-foreground: #111827;
+    --bg-muted: #F1F0EE; /* Slightly darker than background for contrast */
+    --bg-card: #FFFFFF; /* Pure white to pop against background */
+    --bg-sidebar: #F4F2EE; /* Slightly darker cream for sidebar */
+    --text-card-foreground: #111827;
+    --border-color: #EAE8E4; /* Warmer border */
+    
+    --accent: #C6551E; /* Deep burnt orange light mode */
+    --accent-foreground: #FFFFFF;
+    
+    /* Semantic Colors */
+    --success: #10B981; /* Green */
+    --warning: #F59E0B; /* Amber/Yellow */
+    --danger:  #DC2626; /* Red */
+    --violet:  #8B5CF6; /* Purple */
+    --teal:    #14B8A6; /* Teal */
+    --blue:    #3B82F6; /* Blue */
+    --amber:   #F59E0B; /* Amber (alias for warning) */
+    
+    --shadow-color: rgba(17, 24, 39, 0.04); /* slightly more visible but very soft */
+    --accent-shadow: rgba(198, 85, 30, 0.15);
+  }
+
+  .dark {
+    --bg-background: #09090B; /* Deep zinc/OLED-like */
+    --text-foreground: #FAFAFA;
+    --bg-muted: #27272A;
+    --bg-card: #18181B; /* Zinc 900 for subtle elevation */
+    --bg-sidebar: #09090B; /* Seamless with background */
+    --text-card-foreground: #FAFAFA;
+    --border-color: #27272A; 
+    
+    --accent: #E06A2E; /* Vibrant burnt orange for dark mode contrast */
+    --accent-foreground: #FFFFFF;
+    
+    /* Semantic Colors */
+    --success: #10B981; /* Keep bright for dark mode */
+    --warning: #F59E0B;
+    --danger:  #EF4444;
+    --violet:  #8B5CF6;
+    --teal:    #14B8A6;
+    --blue:    #3B82F6;
+    --amber:   #F59E0B;
+    
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --accent-shadow: rgba(224, 106, 46, 0.2);
+  }
+
+  body {
+    @apply font-sans antialiased min-h-screen tabular-nums;
+    background-color: var(--bg-background);
+    color: var(--text-foreground);
+    transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1), color 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+
+  
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Main panel (rounded, border, shadow) */
+.surface-panel {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 40px -10px var(--shadow-color); /* deeper soft shadow */
+  border-radius: 20px; 
+  transition: background-color 200ms, border-color 200ms;
+}
+
+/* Sidebar — darker background */
+.sidebar-bg {
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
+}
+
+/* Card (smaller, inside panels) */
+.surface-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px -2px var(--shadow-color);
+  border-radius: 16px; 
+  transition: all 200ms;
+}
+.surface-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px var(--accent-shadow);
+}
+
+/* Auth card — white card on the auth pages */
+.auth-card {
+  background-color: var(--bg-card);
+  border: 1px solid rgba(210, 190, 165, 0.35);
+  box-shadow: 0 20px 60px -12px rgba(100, 60, 20, 0.12), 0 4px 16px -4px rgba(100, 60, 20, 0.08);
+  border-radius: 28px;
+}
+
+/* Auth page background — warm cream radial gradient */
+.auth-bg {
+  background: radial-gradient(ellipse at 35% 50%, #FDF6EF 0%, #F5EDE0 55%, #EDE0CF 100%);
+  min-height: 100vh;
+}
+
+/* Left illustration panel on auth split-screen */
+.auth-panel-left {
+  background: linear-gradient(145deg, #1E2A3A 0%, #2D3E52 50%, #1A2535 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative blobs on auth page */
+.auth-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+/* ---- Scrollbar ---- */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--accent);
+}
+
+/* ---- Skeleton Loader ---- */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-muted) 25%, var(--border-color) 50%, var(--bg-muted) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+  border-radius: 6px;
+}
+@keyframes skeleton-pulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
