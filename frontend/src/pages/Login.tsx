@@ -38,7 +38,7 @@ export default function Login() {
       }}
     >
       {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
       {/* ── LEFT PANEL — Slogan Overlay ──────────────── */}
       <div className="hidden lg:flex w-1/2 flex-col justify-center px-16 relative z-10">
