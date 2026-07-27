@@ -4,3 +4,10 @@ build/
 .env
 .DS_Store
 .vscode/
+
+# Backend compiled artifacts (build output should be in dist/)
+backend/src/**/*.js
+backend/src/**/*.js.map
+backend/src/**/*.d.ts
+backend/src/**/*.d.ts.map
+backend/*.d.ts.map
