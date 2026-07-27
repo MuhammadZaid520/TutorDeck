@@ -5,7 +5,8 @@
   "installCommand": "npm install",
   "functions": {
     "api/index.js": {
-      "includeFiles": "backend/dist/**"
+      "maxDuration": 30,
+      "includeFiles": "backend/dist/**,node_modules/.prisma/**,node_modules/@prisma/**,node_modules/pg/**,node_modules/pg-pool/**,node_modules/pg-types/**,node_modules/serverless-http/**,node_modules/express/**,node_modules/cors/**,node_modules/bcryptjs/**,node_modules/jsonwebtoken/**,node_modules/dotenv/**"
     }
   },
   "rewrites": [
