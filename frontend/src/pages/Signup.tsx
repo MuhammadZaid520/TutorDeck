@@ -7,7 +7,7 @@ import loginBg from "../assets/login_bg.png";
 
 export default function Signup() {
   const navigate = useNavigate();
-  const { login, auth } = useAuth(); // We'll use login to mock signup for now
+  const { signup, auth } = useAuth();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,11 +19,10 @@ export default function Signup() {
     e.preventDefault();
     setError("");
     try {
-      // MOCK signup - just logging them in with whatever they provided
-      await login(email, password);
+      await signup(email, password, name, "Pakistan");
       navigate("/");
-    } catch {
-      setError("Failed to create account. Please try again.");
+    } catch (err: any) {
+      setError(err?.message || "Failed to create account. Please try again.");
     }
   }
 
@@ -164,7 +163,7 @@ export default function Signup() {
               type="button"
               className="w-full h-12 rounded-xl bg-white border border-gray-200 text-gray-700 font-bold text-sm flex items-center justify-center gap-3 transition-all hover:bg-gray-50 hover:shadow-sm"
               onClick={() => {
-                login("tutor@google.com", "password").then(() => navigate("/")).catch(console.error);
+                setError("Google sign-up is not yet supported. Please use email and password.");
               }}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
