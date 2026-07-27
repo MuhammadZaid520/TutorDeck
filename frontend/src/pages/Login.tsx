@@ -94,7 +94,7 @@ export default function Login() {
                   placeholder="tutor@example.com"
                   autoComplete="email"
                   required
-                  className="w-full h-12 pl-11 pr-4 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#C6551E]/20 focus:border-[#C6551E] outline-none transition-all"
+                  className="w-full h-12 pl-11 pr-4 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 caret-gray-900 focus:ring-2 focus:ring-[#C6551E]/20 focus:border-[#C6551E] outline-none transition-all"
                 />
               </div>
             </div>
@@ -116,7 +116,7 @@ export default function Login() {
                   placeholder="••••••••"
                   autoComplete="current-password"
                   required
-                  className="w-full h-12 pl-11 pr-12 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-[#C6551E]/20 focus:border-[#C6551E] outline-none transition-all"
+                  className="w-full h-12 pl-11 pr-12 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder-gray-400 caret-gray-900 focus:ring-2 focus:ring-[#C6551E]/20 focus:border-[#C6551E] outline-none transition-all"
                 />
                 <button
                   type="button"
